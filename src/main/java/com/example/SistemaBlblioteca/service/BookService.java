@@ -20,7 +20,7 @@ public class BookService {
 
     public BookResponseDTO save(BookRequestDTO bookDTO) {
         if(bookRepository.existsByTitle(bookDTO.title())) {
-            throw new BookAlreadyExistException("Book already exists");
+            throw new BookAlreadyExistException("Book with name: " +bookDTO.title()+ " already exists");
         }
         Book book = bookMapper.toEntity(bookDTO);
         bookRepository.save(book);
@@ -28,7 +28,7 @@ public class BookService {
     }
 
     public BookResponseDTO findByTitle(String title) {
-        Book book = bookRepository.findByTitle(title).orElseThrow(() -> new BookNotFoundException("Book not found"));
+        Book book = bookRepository.findByTitle(title).orElseThrow(() -> new BookNotFoundException("Book not found with title: " + title));
         return bookMapper.toDTO(book);
     }
 
@@ -58,6 +58,6 @@ public class BookService {
     }
 
     private Book getBook(Long id) {
-        return bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("Book not found"));
+        return bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("Book not found with id: " + id));
     }
 }
