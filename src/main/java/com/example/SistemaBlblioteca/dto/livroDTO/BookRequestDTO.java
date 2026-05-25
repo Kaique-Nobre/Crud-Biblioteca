@@ -7,9 +7,6 @@ public record BookRequestDTO(
         String title,
 
         @NotBlank(message = "Category cannot be empty")
-        Long category_id,
-
-        @NotBlank(message = "Available cannot be empty")
-        boolean isAvailable
+        Long categoryId
 ) {
 }

@@ -21,9 +21,6 @@ public class Book {
     @JoinColumn(nullable = false)
     private Category category;
 
-    @Column(nullable = false)
-    private boolean isAvailable;
-
-    public void setCategory(@NotBlank(message = "Categry cannot be null") Long aLong) {
-    }
+    @Column
+    private boolean available;
 }
