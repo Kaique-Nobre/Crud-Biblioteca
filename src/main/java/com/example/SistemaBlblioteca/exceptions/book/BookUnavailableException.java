@@ -1,4 +1,4 @@
-package com.example.SistemaBlblioteca.exceptions;
+package com.example.SistemaBlblioteca.exceptions.book;
 
 public class BookUnavailableException extends RuntimeException {
     public BookUnavailableException(String message) {

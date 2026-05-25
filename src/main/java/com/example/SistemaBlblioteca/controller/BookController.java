@@ -17,7 +17,7 @@ public class BookController {
     private final BookService bookService;
 
     @PostMapping
-    public BookResponseDTO create(@Valid @RequestBody BookRequestDTO bookDTO) {
+    public BookResponseDTO save(@Valid @RequestBody BookRequestDTO bookDTO) {
         return bookService.save(bookDTO);
     }
 

@@ -4,10 +4,10 @@ import com.example.SistemaBlblioteca.dto.livroDTO.BookRequestDTO;
 import com.example.SistemaBlblioteca.dto.livroDTO.BookResponseDTO;
 import com.example.SistemaBlblioteca.entity.Book;
 import com.example.SistemaBlblioteca.entity.Category;
-import com.example.SistemaBlblioteca.exceptions.BookAlreadyExistException;
-import com.example.SistemaBlblioteca.exceptions.BookNotFoundException;
-import com.example.SistemaBlblioteca.exceptions.BookUnavailableException;
-import com.example.SistemaBlblioteca.exceptions.CategoryNotFoundException;
+import com.example.SistemaBlblioteca.exceptions.book.BookAlreadyExistException;
+import com.example.SistemaBlblioteca.exceptions.book.BookNotFoundException;
+import com.example.SistemaBlblioteca.exceptions.book.BookUnavailableException;
+import com.example.SistemaBlblioteca.exceptions.category.CategoryNotFoundException;
 import com.example.SistemaBlblioteca.mapper.BookMapper;
 import com.example.SistemaBlblioteca.repository.BookRepository;
 import com.example.SistemaBlblioteca.repository.CategoryRepository;
@@ -28,8 +28,8 @@ public class BookService {
             throw new BookAlreadyExistException("Book with name: " +bookDTO.title()+ " already exists");
         }
 
-        Category category = categoryRepository.findById(bookDTO.categoryId())
-                .orElseThrow(() -> new CategoryNotFoundException("Category with id: " +bookDTO.categoryId()+ " was not found"));
+        Category category = categoryRepository.findById(bookDTO.category())
+                .orElseThrow(() -> new CategoryNotFoundException("Category with id: " +bookDTO.category()+ " was not found"));
 
         Book book = new  Book();
         book.setTitle(bookDTO.title());
@@ -61,8 +61,8 @@ public class BookService {
     }
 
     public BookResponseDTO update(Long id, BookRequestDTO bookDTO) {
-        Category category = categoryRepository.findById(bookDTO.categoryId())
-                .orElseThrow(() -> new CategoryNotFoundException("Category with id: " +bookDTO.categoryId()+ " was not found"));
+        Category category = categoryRepository.findById(bookDTO.category())
+                .orElseThrow(() -> new CategoryNotFoundException("Category with id: " +bookDTO.category()+ " was not found"));
 
         Book book = getBook(id);
         if (!book.isAvailable()) {
