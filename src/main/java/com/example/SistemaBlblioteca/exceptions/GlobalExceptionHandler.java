@@ -5,23 +5,49 @@ import com.example.SistemaBlblioteca.exceptions.book.BookNotFoundException;
 import com.example.SistemaBlblioteca.exceptions.book.BookUnavailableException;
 import com.example.SistemaBlblioteca.exceptions.category.CategoryAlreadyExistException;
 import com.example.SistemaBlblioteca.exceptions.category.CategoryNotFoundException;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(com.example.SistemaBlblioteca.exceptions.BadRequestException.class)
-    public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException exception) {
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ValidationErrorResponse> handleValidationException(
+            MethodArgumentNotValidException ex) {
+
+        Map<String, String> fields = new HashMap<>();
+
+        ex.getBindingResult().getFieldErrors()
+                .forEach(error ->
+                        fields.put(error.getField(), error.getDefaultMessage()));
+
+        ValidationErrorResponse details =
+                ValidationErrorResponse.builder()
+                        .title("Validation Failed")
+                        .status(HttpStatus.BAD_REQUEST.value())
+                        .message("Check the field errors")
+                        .timestamp(LocalDateTime.now())
+                        .fields(fields)
+                        .build();
+
+        return new ResponseEntity<>(details, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException ex) {
         ErrorResponse error = ErrorResponse.builder()
                 .timestamp(LocalDateTime.now())
                 .status(HttpStatus.BAD_REQUEST.value())
                 .title("Bad Request")
-                .message(exception.getMessage())
+                .message(ex.getMessage())
                 .build();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
