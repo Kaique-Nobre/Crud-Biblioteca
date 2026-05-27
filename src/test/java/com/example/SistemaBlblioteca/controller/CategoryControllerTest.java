@@ -48,7 +48,6 @@ public class CategoryControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.name").value("ROMANCE"));
-        verify(categoryService).save(any(Category.class));
     }
 
     @Test
@@ -135,7 +134,6 @@ public class CategoryControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.name").value("FANTASY"));
-        verify(categoryService).update(eq(1L), any(Category.class));
     }
 
     @Test

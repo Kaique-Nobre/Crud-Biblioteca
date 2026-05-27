@@ -22,4 +22,8 @@ public class Category {
     @Column(unique = true, nullable = false)
     @NotBlank(message = "Category's name cannot be blank")
     private String name;
+
+    public Category(String name) {
+        this.name = name;
+    }
 }

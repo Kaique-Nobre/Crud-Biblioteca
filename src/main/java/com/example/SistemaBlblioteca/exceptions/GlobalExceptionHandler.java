@@ -78,11 +78,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleBookUnavailableException(BookUnavailableException ex){
         ErrorResponse error = ErrorResponse.builder()
                 .timestamp(LocalDateTime.now())
-                .status(HttpStatus.NO_CONTENT .value())
+                .status(HttpStatus.CONFLICT .value())
                 .title("The book is currently unavailable")
                 .message(ex.getMessage())
                 .build();
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(error);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 
     @ExceptionHandler(CategoryNotFoundException.class)

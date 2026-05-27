@@ -37,6 +37,8 @@ public class BookService {
         book.setAvailable(true);
         Book savedBook = bookRepository.save(book);
 
+
+
         return new BookResponseDTO(
                 savedBook.getId(),
                 savedBook.getTitle(),
@@ -73,8 +75,8 @@ public class BookService {
         book.setCategory(category);
         book.setAvailable(true);
 
-        bookRepository.save(book);
-        return bookMapper.toDTO(book);
+        Book savedBook = bookRepository.save(book);
+        return bookMapper.toDTO(savedBook);
     }
 
     public void delete(Long id) {
@@ -82,7 +84,6 @@ public class BookService {
         if (!book.isAvailable()) {
             throw new BookUnavailableException("Unavailable books cannot be deleted");
         }
-
         bookRepository.delete(book);
     }
 
