@@ -17,7 +17,7 @@ public class Book {
     @Column(nullable = false,  unique = true)
     private String title;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private Category category;
 

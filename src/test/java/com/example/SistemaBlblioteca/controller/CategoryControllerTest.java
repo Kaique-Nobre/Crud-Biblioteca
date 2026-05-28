@@ -3,6 +3,7 @@ package com.example.SistemaBlblioteca.controller;
 import com.example.SistemaBlblioteca.entity.Category;
 import com.example.SistemaBlblioteca.exceptions.category.CategoryAlreadyExistException;
 import com.example.SistemaBlblioteca.exceptions.category.CategoryNotFoundException;
+import com.example.SistemaBlblioteca.security.jwt.JwtAuthenticationFilter;
 import com.example.SistemaBlblioteca.service.CategoryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -34,6 +36,9 @@ public class CategoryControllerTest {
 
     @MockitoBean
     private CategoryService categoryService;
+
+    @MockitoBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Test
     void save_CreateCategory_WhenSuccessfully() throws Exception {

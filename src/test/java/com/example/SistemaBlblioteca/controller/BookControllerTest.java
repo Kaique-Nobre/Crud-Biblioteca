@@ -1,11 +1,12 @@
 package com.example.SistemaBlblioteca.controller;
 
-import com.example.SistemaBlblioteca.dto.livroDTO.BookRequestDTO;
-import com.example.SistemaBlblioteca.dto.livroDTO.BookResponseDTO;
+import com.example.SistemaBlblioteca.dto.bookDTO.BookRequestDTO;
+import com.example.SistemaBlblioteca.dto.bookDTO.BookResponseDTO;
 import com.example.SistemaBlblioteca.exceptions.book.BookAlreadyExistException;
 import com.example.SistemaBlblioteca.exceptions.book.BookNotFoundException;
 import com.example.SistemaBlblioteca.exceptions.book.BookUnavailableException;
 import com.example.SistemaBlblioteca.exceptions.category.CategoryNotFoundException;
+import com.example.SistemaBlblioteca.security.jwt.JwtAuthenticationFilter;
 import com.example.SistemaBlblioteca.service.BookService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -37,6 +38,9 @@ public class BookControllerTest {
 
     @MockitoBean
     private BookService bookService;
+
+    @MockitoBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Test
     void save_SaveBook_WhenSuccessfully() throws Exception{

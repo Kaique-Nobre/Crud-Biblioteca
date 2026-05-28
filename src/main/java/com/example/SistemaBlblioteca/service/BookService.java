@@ -1,7 +1,7 @@
 package com.example.SistemaBlblioteca.service;
 
-import com.example.SistemaBlblioteca.dto.livroDTO.BookRequestDTO;
-import com.example.SistemaBlblioteca.dto.livroDTO.BookResponseDTO;
+import com.example.SistemaBlblioteca.dto.bookDTO.BookRequestDTO;
+import com.example.SistemaBlblioteca.dto.bookDTO.BookResponseDTO;
 import com.example.SistemaBlblioteca.entity.Book;
 import com.example.SistemaBlblioteca.entity.Category;
 import com.example.SistemaBlblioteca.exceptions.book.BookAlreadyExistException;

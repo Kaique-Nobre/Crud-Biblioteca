@@ -1,5 +1,6 @@
 package com.example.SistemaBlblioteca.exceptions;
 
+import com.example.SistemaBlblioteca.exceptions.auth.EmailAlreadyRegisteredException;
 import com.example.SistemaBlblioteca.exceptions.book.BookAlreadyExistException;
 import com.example.SistemaBlblioteca.exceptions.book.BookNotFoundException;
 import com.example.SistemaBlblioteca.exceptions.book.BookUnavailableException;
@@ -8,6 +9,7 @@ import com.example.SistemaBlblioteca.exceptions.category.CategoryNotFoundExcepti
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -37,7 +39,6 @@ public class GlobalExceptionHandler {
                         .timestamp(LocalDateTime.now())
                         .fields(fields)
                         .build();
-
         return new ResponseEntity<>(details, HttpStatus.BAD_REQUEST);
     }
 
@@ -102,6 +103,28 @@ public class GlobalExceptionHandler {
                 .timestamp(LocalDateTime.now())
                 .status(HttpStatus.CONFLICT.value())
                 .title("Category already exist")
+                .message(ex.getMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException ex){
+        ErrorResponse error = ErrorResponse.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.BAD_REQUEST .value())
+                .title("Invalid email or password")
+                .message(ex.getMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(EmailAlreadyRegisteredException.class)
+    public ResponseEntity<ErrorResponse> handleEmailAlreadyRegisteredException(EmailAlreadyRegisteredException ex){
+        ErrorResponse error = ErrorResponse.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.CONFLICT .value())
+                .title("Email already registered")
                 .message(ex.getMessage())
                 .build();
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);

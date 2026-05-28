@@ -1,4 +1,4 @@
-package com.example.SistemaBlblioteca.dto.livroDTO;
+package com.example.SistemaBlblioteca.dto.bookDTO;
 
 public record BookResponseDTO(
         Long id,
