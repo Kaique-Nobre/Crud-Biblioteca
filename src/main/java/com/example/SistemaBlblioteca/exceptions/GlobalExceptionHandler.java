@@ -1,6 +1,7 @@
 package com.example.SistemaBlblioteca.exceptions;
 
 import com.example.SistemaBlblioteca.exceptions.auth.EmailAlreadyRegisteredException;
+import com.example.SistemaBlblioteca.exceptions.auth.InvalidTokenException;
 import com.example.SistemaBlblioteca.exceptions.book.BookAlreadyExistException;
 import com.example.SistemaBlblioteca.exceptions.book.BookNotFoundException;
 import com.example.SistemaBlblioteca.exceptions.book.BookUnavailableException;
@@ -112,11 +113,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException ex){
         ErrorResponse error = ErrorResponse.builder()
                 .timestamp(LocalDateTime.now())
-                .status(HttpStatus.BAD_REQUEST .value())
-                .title("Invalid email or password")
+                .status(HttpStatus.UNAUTHORIZED .value())
+                .title("Bad Credentials")
                 .message(ex.getMessage())
                 .build();
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
 
     @ExceptionHandler(EmailAlreadyRegisteredException.class)
@@ -128,5 +129,16 @@ public class GlobalExceptionHandler {
                 .message(ex.getMessage())
                 .build();
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+
+    @ExceptionHandler(InvalidTokenException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidTokenException(InvalidTokenException ex){
+        ErrorResponse error = ErrorResponse.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.UNAUTHORIZED .value())
+                .title("Invalid Token")
+                .message(ex.getMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
 }

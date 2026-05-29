@@ -156,7 +156,7 @@ public class BookControllerTest {
     void update_ThrowsException_WhenBookNotFound() throws Exception{
         BookRequestDTO request = new BookRequestDTO("Nada Pode Me Ferir", 2L);
 
-        when(bookService.update(eq(1L), any(BookRequestDTO.class))).thenThrow(new CategoryNotFoundException("Book not found"));
+        when(bookService.update(eq(1L), any(BookRequestDTO.class))).thenThrow(new BookNotFoundException("Book not found"));
 
         mockMvc.perform(put("/books/1")
                         .contentType(MediaType.APPLICATION_JSON)
