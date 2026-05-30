@@ -40,7 +40,9 @@ public class JwtService {
             throw new InvalidTokenException("Invalid or expired token");
     }
 
-    public JwtService(String secretKey) {
+    public JwtService(
+            @Value("${jwt.secret}")
+            String secretKey) {
         this.secretKey = secretKey;
     }
 }

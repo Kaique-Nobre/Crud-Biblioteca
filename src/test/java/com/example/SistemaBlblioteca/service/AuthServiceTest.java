@@ -6,7 +6,6 @@ import com.example.SistemaBlblioteca.security.auth.dto.LoginRequestDTO;
 import com.example.SistemaBlblioteca.security.auth.dto.LoginResponseDTO;
 import com.example.SistemaBlblioteca.security.auth.dto.RegisterDTO;
 import com.example.SistemaBlblioteca.security.jwt.JwtService;
-import com.example.SistemaBlblioteca.security.user.Role;
 import com.example.SistemaBlblioteca.security.user.User;
 import com.example.SistemaBlblioteca.security.user.UserRepository;
 import org.junit.jupiter.api.Test;
