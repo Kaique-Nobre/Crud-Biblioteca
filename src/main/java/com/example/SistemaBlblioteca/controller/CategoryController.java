@@ -1,5 +1,6 @@
 package com.example.SistemaBlblioteca.controller;
 
+import com.example.SistemaBlblioteca.dto.categoryDTO.CategoryRequestDTO;
 import com.example.SistemaBlblioteca.entity.Category;
 import com.example.SistemaBlblioteca.service.CategoryService;
 import jakarta.validation.Valid;
@@ -30,13 +31,14 @@ public class CategoryController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public Category save(@Valid @RequestBody Category category) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public Category save(@Valid @RequestBody CategoryRequestDTO category) {
         return categoryService.save(category);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public Category update(@PathVariable Long id, @Valid @RequestBody Category category) {
+    public Category update(@PathVariable Long id, @Valid @RequestBody CategoryRequestDTO category) {
         return categoryService.update(id, category);
     }
 

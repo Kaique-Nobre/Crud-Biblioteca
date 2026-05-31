@@ -1,5 +1,6 @@
 package com.example.SistemaBlblioteca.controller;
 
+import com.example.SistemaBlblioteca.dto.categoryDTO.CategoryRequestDTO;
 import com.example.SistemaBlblioteca.entity.Category;
 import com.example.SistemaBlblioteca.exceptions.category.CategoryAlreadyExistException;
 import com.example.SistemaBlblioteca.exceptions.category.CategoryNotFoundException;
@@ -42,39 +43,39 @@ public class CategoryControllerTest {
 
     @Test
     void save_CreateCategory_WhenSuccessfully() throws Exception {
+        CategoryRequestDTO request = new CategoryRequestDTO("ROMANCE");
         Category category = createCategory();
 
-        when(categoryService.save(any(Category.class)))
+        when(categoryService.save(any(CategoryRequestDTO.class)))
                 .thenReturn(category);
 
         mockMvc.perform(post("/categories")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(category)))
-                .andExpect(status().isOk())
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.name").value("ROMANCE"));
     }
 
     @Test
     void save_ReturnsException_WhenCategoryIsBlank() throws Exception {
-        Category category = new Category();
-        category.setName("");
+        CategoryRequestDTO request = new CategoryRequestDTO("");
 
         mockMvc.perform(post("/categories")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(category)))
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void save_ReturnsException_WhenCategoryAlreadyExist() throws Exception {
-        Category category = createCategory();
+        CategoryRequestDTO request = new CategoryRequestDTO("ROMANCE");
 
-        when(categoryService.save(any(Category.class))).thenThrow(new CategoryAlreadyExistException("Category already exist"));
+        when(categoryService.save(any(CategoryRequestDTO.class))).thenThrow(new CategoryAlreadyExistException("Category already exist"));
 
         mockMvc.perform(post("/categories")
             .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(category)))
+                .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isConflict());
     }
 
@@ -126,19 +127,18 @@ public class CategoryControllerTest {
 
     @Test
     void update_UpdateCategory_WhenSuccessfully() throws Exception {
-        Category request = new Category();
-        request.setName("romance");
+        CategoryRequestDTO request = new CategoryRequestDTO("ROMANCE");
 
-        Category response = new Category(1L, "FANTASY");
+        Category response = new Category(1L, "ROMANCE");
 
-        when(categoryService.update(eq(1L), any(Category.class))).thenReturn(response);
+        when(categoryService.update(eq(1L), any(CategoryRequestDTO.class))).thenReturn(response);
 
         mockMvc.perform(put("/categories/1")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.name").value("FANTASY"));
+                .andExpect(jsonPath("$.name").value("ROMANCE"));
     }
 
     @Test

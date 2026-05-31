@@ -37,8 +37,6 @@ public class BookService {
         book.setAvailable(true);
         Book savedBook = bookRepository.save(book);
 
-
-
         return new BookResponseDTO(
                 savedBook.getId(),
                 savedBook.getTitle(),
@@ -59,7 +57,8 @@ public class BookService {
 
     public List<BookResponseDTO> findAll() {
         List<Book> books = bookRepository.findAll();
-        return books.stream().map(bookMapper::toDTO).toList();
+        List<Book> availableBooks = books.stream().filter(Book::isAvailable).toList();
+        return availableBooks.stream().map(bookMapper::toDTO).toList();
     }
 
     public BookResponseDTO update(Long id, BookRequestDTO bookDTO) {

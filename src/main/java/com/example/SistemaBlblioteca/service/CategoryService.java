@@ -1,5 +1,6 @@
 package com.example.SistemaBlblioteca.service;
 
+import com.example.SistemaBlblioteca.dto.categoryDTO.CategoryRequestDTO;
 import com.example.SistemaBlblioteca.entity.Category;
 import com.example.SistemaBlblioteca.exceptions.category.CategoryAlreadyExistException;
 import com.example.SistemaBlblioteca.exceptions.category.CategoryNotFoundException;
@@ -22,22 +23,24 @@ public class CategoryService {
         return getCategory(id);
     }
 
-    public Category save(Category category) {
-        if(categoryRepository.existsByName(category.getName().toUpperCase())) {
-            throw new CategoryAlreadyExistException("Category already exists with name " + category.getName());
+    public Category save(CategoryRequestDTO request) {
+        if(categoryRepository.existsByName(request.name().toUpperCase())) {
+            throw new CategoryAlreadyExistException("Category already exists with name " + request.name());
         }
-        String upperCase = category.getName().toUpperCase();
+        String upperCase = request.name().toUpperCase();
+
+        Category category = new Category();
+
         category.setName(upperCase);
         return categoryRepository.save(category);
     }
 
-    public Category update(Long id, Category category) {
+    public Category update(Long id, CategoryRequestDTO category) {
         Category categoryToUpdate = getCategory(id);
 
-        Category categoryUpdated = new Category();
-        categoryUpdated.setName(categoryToUpdate.getName().toUpperCase());
+        categoryToUpdate.setName(category.name().toUpperCase());
 
-        return categoryRepository.save(categoryUpdated);
+        return categoryRepository.save(categoryToUpdate);
     }
 
     public void delete(Long id) {

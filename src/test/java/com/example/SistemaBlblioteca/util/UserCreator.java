@@ -13,4 +13,13 @@ public class UserCreator {
         user.setRole(Role.ROLE_USER);
         return user;
     }
+
+    public static User createUserForIntegrationTests() {
+        User user = new User();
+        user.setName("user");
+        user.setEmail("user@email.com");
+        user.setPassword("password");
+        user.setRole(Role.ROLE_USER);
+        return user;
+    }
 }

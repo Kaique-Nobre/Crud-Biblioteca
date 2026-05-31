@@ -52,7 +52,7 @@ public class BookControllerTest {
         mockMvc.perform(post("/books")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.title").value("Meditações"))
                 .andExpect(jsonPath("$.category").value("FILOSOFIA"));

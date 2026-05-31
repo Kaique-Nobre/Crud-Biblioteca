@@ -1,5 +1,6 @@
 package com.example.SistemaBlblioteca.service;
 
+import com.example.SistemaBlblioteca.dto.categoryDTO.CategoryRequestDTO;
 import com.example.SistemaBlblioteca.entity.Category;
 import com.example.SistemaBlblioteca.exceptions.category.CategoryAlreadyExistException;
 import com.example.SistemaBlblioteca.exceptions.category.CategoryNotFoundException;
@@ -28,11 +29,12 @@ public class CategoryServiceTest {
 
     @Test
     void save_SaveCategory_WhenSuccessfully() {
+        CategoryRequestDTO requestDTO = new CategoryRequestDTO("ROMANCE");
         Category category = createCategory();
 
         when(categoryRepository.save(any(Category.class))).thenReturn(category);
 
-        Category savedCategory = categoryService.save(category);
+        Category savedCategory = categoryService.save(requestDTO);
 
         assertNotNull(savedCategory);
 
@@ -44,10 +46,11 @@ public class CategoryServiceTest {
 
     @Test
     void save_ThrowsException_WhenCategoryAlreadyExists() {
+        CategoryRequestDTO requestDTO = new CategoryRequestDTO("ROMANCE");
         Category category = createCategory();
         when(categoryRepository.existsByName(category.getName().toUpperCase())).thenReturn(true);
 
-        assertThrows(CategoryAlreadyExistException.class, () -> categoryService.save(category));
+        assertThrows(CategoryAlreadyExistException.class, () -> categoryService.save(requestDTO));
 
         verify(categoryRepository, never()).save(any(Category.class));
     }
@@ -100,16 +103,17 @@ public class CategoryServiceTest {
 
     @Test
     void update_UpdateCategory_WhenSuccessfully() {
+        CategoryRequestDTO requestDTO = new CategoryRequestDTO("UPDATED");
         Category category = createCategory();
         Category categoryToUpdate = new Category(1L, "UPDATED");
 
         when(categoryRepository.findById(1L)).thenReturn(Optional.of(category));
         when(categoryRepository.save(any(Category.class))).thenReturn(categoryToUpdate);
 
-        Category updatedCategory = categoryService.update(1L, categoryToUpdate);
+        Category updatedCategory = categoryService.update(1L, requestDTO);
 
         assertNotNull(updatedCategory);
-        assertEquals(category.getId(), updatedCategory.getId());
+        assertEquals(1L, updatedCategory.getId());
         assertEquals("UPDATED", updatedCategory.getName());
 
         verify(categoryRepository).findById(1L);

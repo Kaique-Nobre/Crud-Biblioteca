@@ -2,7 +2,6 @@ package com.example.SistemaBlblioteca.service;
 
 import com.example.SistemaBlblioteca.dto.LoanDTO.LoanRequestDTO;
 import com.example.SistemaBlblioteca.dto.LoanDTO.LoanResponseDTO;
-import com.example.SistemaBlblioteca.dto.messageDTO.MessageResponseDTO;
 import com.example.SistemaBlblioteca.entity.Book;
 import com.example.SistemaBlblioteca.entity.Loan;
 import com.example.SistemaBlblioteca.exceptions.book.BookNotFoundException;
@@ -14,7 +13,6 @@ import com.example.SistemaBlblioteca.repository.LoanRepository;
 import com.example.SistemaBlblioteca.security.user.Role;
 import com.example.SistemaBlblioteca.security.user.User;
 import com.example.SistemaBlblioteca.security.user.UserRepository;
-import org.apache.catalina.security.SecurityUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,12 +20,9 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -227,9 +222,7 @@ public class LoanServiceTest {
 
         when(loanRepository.findById(1L)).thenReturn(Optional.of(loan));
 
-        ResponseEntity<MessageResponseDTO> response = loanService.delete(1L);
-
-        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+        loanService.delete(1L);
 
         assertTrue(loan.getBook().isAvailable());
 

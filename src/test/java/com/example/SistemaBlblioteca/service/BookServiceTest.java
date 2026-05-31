@@ -127,6 +127,19 @@ public class BookServiceTest {
 
     @Test
     void findAll_ReturnEmptyList_WhenThereAreNoSavedBooks() throws Exception{
+        Book book = createBook();
+        book.setAvailable(false);
+        List<Book> books = List.of(book);
+
+        when(bookRepository.findAll()).thenReturn(books);
+
+        List<BookResponseDTO> response = bookService.findAll();
+
+        assertTrue(response.isEmpty());
+    }
+
+    @Test
+    void findAll_ReturnEmptyList_WhenThereAreNoAvailableBooks() throws Exception{
         List<Book> books = List.of();
 
         when(bookRepository.findAll()).thenReturn(books);
@@ -135,6 +148,7 @@ public class BookServiceTest {
 
         assertTrue(response.isEmpty());
     }
+
 
     @Test
     void update_UpdateBook_WhenSuccessfully() throws Exception{

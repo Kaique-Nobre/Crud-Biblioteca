@@ -42,6 +42,6 @@ public class LoanController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<MessageResponseDTO> delete(@PathVariable Long id){
         loanService.delete(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new MessageResponseDTO("Loan has been deleted successfully"));
+        return ResponseEntity.status(HttpStatus.OK).body(new MessageResponseDTO("Loan has been deleted successfully"));
     }
 }

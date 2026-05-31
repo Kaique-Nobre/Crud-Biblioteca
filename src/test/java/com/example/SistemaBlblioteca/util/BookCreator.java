@@ -19,6 +19,13 @@ public class BookCreator {
         return book;
     }
 
+    public static Book createBookForIntegrationTests(){
+        Book book = new Book();
+        book.setTitle("Noites Brancas");
+        book.setAvailable(true);
+        return book;
+    }
+
     public static BookResponseDTO createBookResponseDTO(){
         return new BookResponseDTO(1L, "Meditações", "FILOSOFIA", true);
     }

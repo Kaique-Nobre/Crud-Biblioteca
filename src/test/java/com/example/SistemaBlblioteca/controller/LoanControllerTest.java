@@ -136,13 +136,13 @@ public class LoanControllerTest {
     @Test
     void delete_ShouldReturnNoContent_WhenSuccessfully() throws Exception {
         ResponseEntity<MessageResponseDTO> messageResponseDTO = ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
+                .status(HttpStatus.OK)
                 .body(new MessageResponseDTO("Loan has been deleted successfully"));
 
         when(loanService.delete(anyLong())).thenReturn(messageResponseDTO);
 
         mockMvc.perform(delete("/loan/1"))
-                .andExpect(status().isNoContent())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message").value("Loan has been deleted successfully"));
     }
 

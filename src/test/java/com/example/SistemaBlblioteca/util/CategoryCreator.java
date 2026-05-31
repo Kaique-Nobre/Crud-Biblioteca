@@ -11,6 +11,13 @@ public class CategoryCreator {
         return category;
     }
 
+    public static Category createCategoryForIntegrationTests() {
+        Category category = new Category();
+        category.setName("ROMANCE");
+
+        return category;
+    }
+
     public static Category createInvalidCategory() {
         Category category = new Category();
         category.setName("");
